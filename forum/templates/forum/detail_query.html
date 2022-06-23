@@ -1,0 +1,99 @@
+{% extends 'forum/basic.html' %}
+
+{% block title %}
+{{query}}
+{%endblock%}
+
+{%block sidebar%}
+    {%if request.user.user_type == "company" %}
+        {% for c in all_queries %}
+        <div class="card" style="margin :10px 20px;background-color: #070427;border-left: solid yellow 5px">
+        <div class="card-body">
+            <a href="{% url 'detail-query' c.id %}" style="text-decoration: none;color:whitesmoke;font-size:20px" >{{c.title}}</a>
+        </div>
+        </div>
+        {%endfor%}
+    {%else%}
+    {% for c in cp%}
+    <div class="card" style="margin :10px 20px;background-color: #070427;border-left: solid yellow 5px">
+    <div class="card-body">
+        <a href="{% url 'sub-forum' c %}" style="text-decoration: none;color:whitesmoke;font-size:20px" >{{c}}</a>
+    </div>
+    </div>
+    {%endfor%}
+    {%endif%}
+{%endblock%}
+
+{%block display%}
+
+
+    {%if request.user.is_authenticated  %}
+    <div style="padding: 100px 10px 10px 10px">
+        <div style="color: whitesmoke;margin:5px 0px 10px 80px;overflow-y:auto;">
+            <div class="card" style="width: 48rem;background-color:rgba(74, 75, 78, 0.46);border-left: solid rgb(69, 181, 236) 5px">
+                <div class="card-body">
+                    <div style="display: inline-block;width:730px">
+                        <h5 class="card-title" style="float:left"><a href="#" style="text-decoration:none;color:whitesmoke">{{query.title}}</a></h5>
+                        {%if request.user == query.user%}
+                        <h6 style="float:right;"><a href="{% url 'edit-query' query.id %}" style="text-decoration: none;color:whitesmoke" ><i class="far fa-edit"> </i>Edit</a></h6>
+                        {%endif%}
+                    </div>
+                
+                <h6 class="card-subtitle mb-2 text-muted">{{query.body|safe}}</h6>
+                <div style="display: inline-body;">
+                    <p style="font-weight: lighter;float:left;">By {{query.user.first_name}} {{query.user.last_name}} on {{query.date_posted}}</p>
+                    <a href="#reply-form" style="float: right;text-decoration:none;color:whitesmoke"><i class="fas fa-reply-all" ></i>  Reply</a>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding: 10px 150px;">
+        {% for r in replies %}
+        <div class="card" style="width: 48rem;background-color:rgba(74, 75, 78, 0.46);border-left: solid rgb(192, 255, 104) 5px;margin-top:20px">
+            <div class="card-body">
+                <div style="display: inline-block;">
+                    <div style="float: left;">
+                        <h6 class="card-subtitle " style="color: whitesmoke;width:40rem">{{r.body|safe}}</h6><br>
+                    </div>
+                    {% if request.user == r.user %}
+                    <a href="{% url 'delete-reply' r.id %}" style="float: right;margin-top:2rem;margin-left:3rem"><i class="fas fa-trash"></i></a>
+                    {%endif%}
+                </div>
+           
+            <p style="font-weight: lighter;color:whitesmoke">By {{r.user.first_name}} {{r.user.last_name}} on {{r.date_posted}}</p>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+    
+    <div style="padding: 100px 590px 100px 100px;" id="reply-form">
+        <div class="form-group" style="color: whitesmoke;">
+            <form method="POST">
+                {%csrf_token%}
+
+                {{ form.as_p }}
+
+                <button class="btn btn-primary" >Add</button>
+                <script>
+                    var id="{{ user.id }}";
+                    document.getElementById("user-box-forum").value=id;
+
+                    var q="{{query}}"
+                    document.getElementById("q-box-forum").value=q;
+                </script>
+                
+            </form>
+        </div>
+
+    
+        
+    {%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+    </div> 
+    {%endif%}
+
+{%endblock%}

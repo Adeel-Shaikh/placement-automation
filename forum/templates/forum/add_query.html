@@ -1,0 +1,40 @@
+{% extends 'forum/basic.html' %}
+
+{% block title %}
+Add Query
+{%endblock%}
+
+
+
+{%block display%}
+
+
+    {%if request.user.is_authenticated  %}   
+
+        <div style="padding: 100px 590px 100px 100px;">
+            <div class="form-group" style="color: whitesmoke;">
+                <form method="POST">
+                    {%csrf_token%}
+                    {{form.media}}
+                    {{form.as_p}}
+                    <button class="btn btn-primary" >Add</button>
+                    
+                    
+                </form>
+                <script>
+                    var id="{{ user.id}}";
+                    document.getElementById("user-box-forum").value=id;
+                </script>
+            </div>
+    
+           
+        </div>
+        
+    {%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+    </div> 
+    {%endif%}
+
+{%endblock%}

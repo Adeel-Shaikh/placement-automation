@@ -1,0 +1,169 @@
+{% extends 'student/basic.html' %}
+
+{% block title %}
+{{jobs.position}}
+{%endblock%}
+
+{%block name%}
+{{jobs.position}}
+{%endblock%}
+
+{%block display%}
+
+    {%if request.user.is_authenticated and request.user.user_type == "student"  %}
+      <!--sidebar start-->
+    
+
+      <div class="sidebar"style="z-index:1">
+        <a href="{% url 'job-list-view' %}"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+        <a href="{% url 'edit-resume' request.user.studentresume.id%}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Resume</span></a>
+        <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        <a href="{% url 'student-profile' request.user.id %}"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+
+        
+        </div>
+        <!------------side bar ends here-->
+        <div style="padding:100px 270px 10px 270px">
+            <div class="card" style="width: 65rem;height:10rem; border-radius:15px;background-color: #a863d6;">
+                <div class="card-body">
+                  <h5 class="card-title" style="text-align: center;color:white;font-size:30px"><b>Apply Now !!</b></h5><br>
+        
+                  <p class="card-text"style="text-align: center; color:white;font-size:15px">Opportunity is missed by most people because it is dressed in overalls and looks like work. — Thomas Edison.</p>
+        
+                </div>
+              </div>
+        </div>
+        <div style="display: inline-block;">
+            <div  class="row" style="padding:2px 0px 2px 270px">
+                <div class="col-md-6">
+                    <div class="card mb-3" style="width:740px;border-radius:15px;">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <div class="card" style="width: 12rem;border:none;margin-left:10px">
+                                <img src="https://pngimg.com/uploads/google/google_PNG19635.png" class="card-img-top" alt="..." style="height: auto;width:150px;margin:0 auto">
+            
+                                <div class="card-body">
+                                  <h5 class="card-title"style="text-align: center;text-transform:capitalize;"><b>{{jobs.user.companyprofile}}</b></h5>
+                                  {% if request.user.studentresume.is_verified%}
+                                    {%if not sel %}
+                                      {%if applied %}
+                                        <p class="btn btn-primary" style="margin-left:35px;padding:5px 20px;background-color: #a863d6;">Applied</p>
+                                      {%else%}
+                                        {% if request.user.studentresume.attendance >= 75 and request.user.studentresume.Backlogs == 0 %}
+                                          <a href="{% url 'job-apply-view' jobs.id request.user.id %}" class="btn btn-primary"style="margin-left:40px;padding:5px 20px;background-color: #a863d6;">Apply</a>
+                                        {%else%}
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                          <small>Not Eligible</small>
+                                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        {%endif%}
+                                      {%endif%}
+
+                                    {%endif%}
+                                  {%else%}
+                                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <small>Not verified</small>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                  </div>
+                                  {%endif%}  
+                                </div>
+                              </div>
+                            <!---->
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body" style="margin-left: 50px;">
+                              <h5 class="card-title"><b>{{jobs.position}}</b></h5>
+                              <br>
+                              <p class="card-text"><i class="fas fa-money-check"></i> {{jobs.salary}}/month</p>
+                              <p class="card-text"><i class="fas fa-envelope"></i><a href="mailto:{{jobs.user}}" style="text-decoration:none;color:black" > {{jobs.user}}</a></p>
+                              <p class="card-text"><i class="fas fa-business-time"></i> {{jobs.job_time}} hrs</p>
+                              <p class="card-text"><i class="fas fa-user-plus"></i> {{jobs.vacancy}} open Positions</p>
+ 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+    
+                </div>
+             
+                  <div class="col-md-6">
+                    <div class="card" style="width: 18rem;height:16rem; border-radius:15px;margin-left:140px">
+                        <div class="card-body">
+                          <h5 class="card-title" style="text-align: center;text-transform:capitalize;"><b>{{jobs.user.companyprofile}}</b></h5>
+                          <hr>
+                          <h6 class="card-subtitle mb-2 text-muted" style="text-align: center;">{{jobs.user.companyprofile.address}}</h6>
+                          <p class="card-text">{{jobs.user.companyprofile.preview|safe|truncatechars:60}}</p>
+    
+                          <a href="{% url 'company-profile-student' jobs.user.companyprofile.id %}" class="btn btn-primary"style="margin-left:20px;padding:5px 20px;background-color: #a863d6;">visit Company Profile</a>
+                        </div>
+                      </div>
+                  </div>      
+            </div>
+        </div>
+        <div style="padding:2px 270px">
+            <div class="card" style="width: 65rem;border-radius:15px">
+                <h5 class="card-header"style="background-color: #a863d6; border-radius:15px 15px 0px 0px">Job Description</h5>
+                <div class="card-body">
+                  <p class="card-text">{{jobs.desc}}</p>
+                </div>
+            </div>
+        </div>
+        <div style="padding:10px 270px">
+            <div class="card" style="width: 65rem;border-radius:15px">
+                <h5 class="card-header"style="background-color: #a863d6; border-radius:15px 15px 0px 0px">Expectation</h5>
+                <div class="card-body">
+                  <p class="card-text">{{jobs.expected}}</p>
+                </div>
+            </div>
+        </div>
+        <div style="padding:10px 270px">
+            <div class="card" style="width: 65rem;border-radius:15px">
+                <h5 class="card-header"style="background-color: #a863d6; border-radius:15px 15px 0px 0px">Responsibility</h5>
+                <div class="card-body">
+                  <p class="card-text">{{jobs.job_responsibilty}}</p>
+                </div>
+            </div>
+        </div>
+        
+    {%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+    </div>  
+    {%endif%}
+
+{%endblock%}
+
+
+<!---
+
+
+
+{%block content%}
+
+    {%if request.user.is_authenticated and request.user.user_type == "student"  %} 
+ 
+        <h1>{{jobs.position}}</h1>
+
+        {%if applied %}
+        <p style="background-color:rgb(241, 54, 216);text-align:center;color:white;padding:5px;border-radius:5px;font-weight:bold;margin-right:93%">Applied</p>
+        
+        {%else%}
+        <a href="{% url 'job-apply-view' jobs.id request.user.id %}" style="background-color:rgb(241, 54, 216);text-decoration:none;color:white;padding:5px;border-radius:5px;font-weight:bold">Apply</a>
+        {%endif%}
+        <hr>
+        Description  :{{jobs.desc}}<br><br>
+        Expectations :{{jobs.expected}}<br><br>
+        Salary :{{jobs.salary}} /-<br><br>
+        vacancy :{{jobs.vacancy}}<br><br>
+        Responsibility :{{jobs.job_responsibilty}}<br><br>
+        Work hours :{{jobs.job_time}}<br><br>
+
+        
+    {%else%}
+        <h2>This Page Isnt Available</h2>
+        <p>The Link Maybe Broken</p>
+    {%endif%}
+
+{%endblock%}
+-->

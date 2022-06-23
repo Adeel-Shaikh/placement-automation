@@ -1,0 +1,229 @@
+{% extends 'student/basic.html'%}
+
+{%block title%}
+Student -{{User.first_name}} {{User.last_name}}
+{%endblock%}
+
+{%block name%}
+{%if request.user.is_authenticated and request.user.user_type == "student" and request.user.id == User.id %}
+Student : {{User.first_name}} {{User.last_name}}
+{%else%}
+404 
+{%endif%}
+{%endblock%}
+{%block display%}
+{%if request.user.is_authenticated and request.user.user_type == "student" and request.user.id == User.id %}
+    <!--sidebar start-->
+
+        <div class="sidebar" style="z-index: 1;">
+            
+            
+            {% if User.studentresume %}
+                <a href="{% url 'job-list-view' %}"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+                <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+                <!---<a href="{% url 'edit-resume' User.studentresume.id%}">Resume Edit</a><br>-->
+                <a href="{% url 'edit-resume' User.studentresume.id%}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Resume</span></a>
+                <a href="{% url 'student-profile' User.id %}" ><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+            {%else%}
+                <a href="#" style="pointer-events: none;"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+                <a id="active-link" href="{% url 'forum-main'%}" style="pointer-events: none;"><i class="fas fa-desktop"></i><span>Forum</span></a>
+                <a href="{% url 'student-resume' %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Resume</span></a>
+                <a href="{% url 'student-profile' User.id %}" style="pointer-events: none;"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+            {%endif%}
+            
+            
+        </div>
+<div class="stat-cards">
+    <a href="{% url 'test-for-student'%}" style="text-decoration: none;">
+    <div class="card-body2 color1">
+            <div class="float-left">
+                <h3>
+                    <span class="currency"></span>
+                    <span class="count"></span>
+                </h3>
+                <p>Take Test</p>
+            </div>
+            <div class="float-right">
+                <i class="fa fa-check-circle" aria-hidden="true"></i>
+            </div>
+        </div>
+    </a>
+        <!--Widget End-->
+        <!--Widget Start-->
+        <a href="{% url 'applied-job-list' %}" style="text-decoration: none;">
+        <div class="card-body2 color2">
+            <div class="float-left">
+                <h3>
+                    <span class="count">{{ap_count}}</span>
+                </h3>
+                <p>Applied</p>
+            </div>
+            <div class="float-right">
+                <i class="fa fa-hourglass-end" aria-hidden="true"></i>
+            </div>
+        </div>
+        </a>
+        <!--Widget End-->
+        <!--Widget Start-->
+        <a href="{% url 'invited-jobs-list' %}">
+        <div class="card-body2 color3">
+            <div class="float-left">
+                <h3>
+                    <span class="count">{{inv_count}}</span>
+                </h3>
+                <p>Invited</p>
+            </div>
+            <div class="float-right">
+                <i class="fa fa-bookmark" aria-hidden="true"></i>
+            </div>
+        </div>
+        </a>
+  </div>  
+  <style>
+    .inner-text{
+        font-size: 14px;
+    }
+    .content-box{
+        padding: 20px 10px 300px 10px;
+    }
+    .context{
+        position: fixed;
+        margin-left:100px;
+    }
+
+  </style>   
+  <div class="notice" style="position: fixed;">
+    <div class="card-body1 color4 " style="padding:20px;font-size:12px">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="opacity: 0.9;">
+            <div class="carousel-indicators ">
+                {%for n in notice%}
+                    {% if forloop.counter0 == 0 %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    {%else%}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}" aria-label="Slide 2"></button>
+                    {%endif%}
+
+                {%endfor%}
+
+            </div>
+            
+
+
+            <div class="carousel-inner">
+                {%for n in notice%}
+                {%if forloop.counter == 1%}
+                <div class="carousel-item active content-box">
+                    <div class="card context" style="width: 34rem;height:16rem;">
+                        <div class="card-body" style="color: black;display:flex">
+                            <div style="padding:10px 10px 0px 0px">
+                                
+                                <h6 class="card-subtitle mb-2 text-muted">Date:{{n.date_posted}} </h6><br>
+                                <h6 class="card-subtitle mb-2 text-muted">Topic:{{n.topic}} </h6><br>
+                                <h6 class="card-subtitle mb-2 text-muted">Organized by:{{n.organized_by}} </h6><br>
+
+                            </div>
+                        
+                            <div class="card" style="width: 25rem;background-color:#fff4fe">
+                                <div class="card-body">
+
+                                <p class="card-text inner-text" >{{n.description|safe|truncatechars:150}}</p>
+                                <button class="btn btn-outline-primary">Know More</button>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                {%else%}
+                <div class="carousel-item content-box">
+                    <div class="card context" style="width: 34rem;height:16rem;">
+                        <div class="card-body" style="color: black;display:flex">
+                            <div style="padding:10px 10px 0px 0px">
+                                
+                                <h6 class="card-subtitle mb-2 text-muted">Date:{{n.date_posted}} </h6><br>
+                                <h6 class="card-subtitle mb-2 text-muted">Topic:{{n.topic}} </h6><br>
+                                <h6 class="card-subtitle mb-2 text-muted">Organized by:{{n.organized_by}} </h6><br>
+
+                            </div>
+                        
+                            <div class="card" style="width: 25rem;background-color:#fff4fe">
+                                <div class="card-body">
+
+                                <p class="card-text inner-text" >{{n.description|safe|truncatechars:150}}</p>
+                                <button class="btn btn-outline-primary">Know More</button>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                {%endif%}
+              {%endfor%}
+
+            </div>
+
+            
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          
+          
+  </div> 
+  <div style="float:right;margin-right:50px;">
+    {% if cn %}
+        {%for c in cn %}
+        {%if c.is_notified == False %}
+
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" style="width:18rem">
+        <strong>Changes in Resume</strong> {{c.note}}
+        <a href="{% url 'close-notification' c.id %}" class="btn-close"  ></a>
+
+        </div>
+        {%endif%}
+        {%endfor%}
+    {%endif%}
+  </div>
+  <div style="float:right;margin-right:42px;">
+    {% if sel %}
+    <div class="alert alert-success" role="alert" style="width:18rem;margin-top:15px">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>Aww yeah, you successfully <strong>selected as {{sel.job.position}} for {{sel.job.user.companyprofile}}</strong></p>
+        <hr>
+        <p class="mb-0">Further details will pe forwarded to you soon !!</p>
+      </div>
+    {%endif%}
+  </div>
+  {%else%}
+  <div style="padding: 100px; font-size:larger;" >
+    <h2>This Page Isnt Available</h2>
+    <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+  </div>  
+  {%endif%}
+
+{%endblock%}
+<!--
+{%block content%}
+    {%if request.user.is_authenticated and request.user.user_type == "student" and request.user.id == User.id %}
+        <h1>Hello Student</h1>
+        <br>
+        {{User.email}}
+
+        <hr>
+        {% if User.studentresume %}
+            <a href="{% url 'edit-resume' User.studentresume.id%}">Resume Edit</a><br>
+        {%else%}
+            <a href="{% url 'student-resume' %}">Resume Create</a><br>
+        {%endif%}
+        <a href="{% url 'add-project'%}">Projects</a><br>
+        <a href="{% url 'add-skills'%}">Skills</a><br>
+        <a href="{% url 'logout' %}">Logout</a>
+    {%else%}
+        <h2>This Page Isnt Available</h2>
+        <p>The Link Maybe Broken</p>
+    {%endif%}
+{%endblock%}
+-->

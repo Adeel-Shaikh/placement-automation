@@ -1,0 +1,78 @@
+{% extends 'company/basic.html'%}
+
+{%block title%}
+Job list
+{%endblock%}
+
+{%block name%}
+Jobs
+{%endblock%}
+
+{%block display%}
+
+    {%if request.user.is_authenticated and request.user.user_type == "company"  %}    
+    <div class="sidebar" style="z-index: 1;">
+        <a id="active-link" href="{% url 'sub-forum' request.user.companyprofile  %}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        {% if request.user.companyprofile %}
+        <a href="{% url 'edit-c-profile' request.user.companyprofile.id %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Details</span></a>
+        {%else%}
+        <a href="{% url 'create-c-profile' %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Details</span></a>
+        {%endif%}
+        <a href="{% url 'company-profile'%}"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+        
+    </div>
+    <div style="padding: 100px 50px 5px 290px">
+        <div class="card" style="width: 59rem; border-radius:10px; background-color:#6d8ed3;color:whitesmoke">
+
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center;font-size:24px"><b>Success is how high you bounce when you hit bottom</b></h5>
+              <p class="card-text" style="text-align: center;">By  zlatan Ibrahimovic</p>
+
+            </div>
+          </div>
+    </div>
+    <div style="padding: 10px 100px 50px 270px; font-size:larger;display:flex;flex-flow:row wrap;">
+        <div class="card" style="width: 18rem;border-radius:30px;margin: 20px;">
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center;font-size:25px"><b>Add Jobs</b></h5>
+              <a href="{% url 'create-jobs' %}" style="margin:30px 105px;" ><i class="fas fa-plus-circle fa-2x"></i></a>
+            </div>
+          </div>
+        {% for job in job_list %}
+
+        <div class="card" style="width: 18rem;border-radius:30px;margin: 20px;">
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center;"><b>{{job.position}}</b> -{{job.vacancy}}</h5>
+              <h6 class="card-title" style="text-align: center;"><b>{{job.user.companyprofile}}</b></h6>
+              
+              <div style="white-space: nowrap;">
+                <a href="{% url 'applicant-list' job.id %}" style="margin:3px 35px 0px 25px;" title="view Applied Students"><i class="fas fa-users"></i></a>
+                {%if job.quiz%}
+                <a href="{% url 'test-stats' job.quiz.id%}" style="margin:3px 45px 0px 25px;" title="Give test"><i class="fas fa-poll"></i></a>
+                {%else%}
+                <a href="{% url 'create_quiz' job.id %}" style="margin:3px 45px 0px 25px;" title="Give test"><i class="far fa-copy"></i></i></a>
+                {%endif%}
+                {% if job.hide_key %}
+                <a href="{% url 'hide-job' job.id %}" style="margin:3px 15px 0px 25px;" title="flaunt job" ><i class="far fa-eye-slash"></i></a>
+                {%else%}
+                <a href="{% url 'hide-job' job.id %}" style="margin:3px 15px 0px 25px;" title="hide job from students" ><i class="fas fa-edit"></i></a>
+                {%endif%}
+              </div>
+            </div>
+          </div>
+          
+        {%endfor%}
+        
+    </div>
+        
+            
+            
+       
+    {%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+      </div> 
+    {%endif%}
+
+{%endblock%}

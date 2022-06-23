@@ -1,0 +1,49 @@
+{%extends 'manager/basic.html'%}
+
+{%block title%}
+Jobs
+{%endblock%}
+
+{%block name%}
+List of Jobs
+{%endblock%}
+
+
+{% block display%}
+    {%if request.user.is_authenticated and request.user.user_type == "admin"  %}    
+    <div class="sidebar" style="z-index: 1;">
+        <a href="{% url 'notice-home'%}"><i class="fa fa-building" aria-hidden="true"></i><span>Notice</span></a>
+        <a href="{% url 'verify-student' %}"><i class="fas fa-user-graduate"></i></i><span>Students</span></a>
+        <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        <a href="{% url 'applied-student'%}"><i class="fa fa-user" aria-hidden="true"></i><span>Applicant</span></a>
+        
+    </div>
+    
+
+
+    <div style="padding: 100px 290px;">
+        {% for c in cp %}
+
+        <h1 style="color: blue;font-weight:400"> {{c.companyprofile}}<hr style="color: blue;height:3px"></h1>
+            <table class="table">
+                <tbody>
+                    {% for j in jb%}
+                        {% if c == j.user %}
+                        <tr>
+                            <td style="text-transform: capitalize;font-size:22px;font-weight:bolder;">{{j.position}}</td>
+                            <td style="text-transform: capitalize;font-size:22px;font-weight:bolder;">{{j.vacancy}}</td>
+
+                            
+                        {%endif%}
+                        
+                    {%endfor%}
+                </tbody>
+            </table>
+            <br><br>
+        {%endfor%}
+
+    </div>
+    {%endif%}
+
+
+{%endblock%}

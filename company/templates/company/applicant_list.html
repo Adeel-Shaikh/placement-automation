@@ -1,0 +1,63 @@
+{% extends 'company/basic.html'%}
+
+{%block title%}
+Applicant list
+{%endblock%}
+
+{%block name%}
+Applicants
+{%endblock%}
+
+{%block display%}
+
+    {%if request.user.is_authenticated and request.user.user_type == "company"  %}    
+    <div class="sidebar" style="z-index: 1;">
+        <a href="{% url 'jobs-list'%}"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+        <a id="active-link" href="#"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        {% if request.user.companyprofile %}
+        <a href="{% url 'edit-c-profile' request.user.companyprofile.id %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Details</span></a>
+        {%else%}
+        <a href="{% url 'create-c-profile' %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Details</span></a>
+        {%endif%}
+        <a href="{% url 'company-profile'%}"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+        
+    </div>
+   
+        <div style="padding: 100px 290px;"> 
+            <div class="card" style="width: 59rem; border-radius:10px; background-color:#6d8ed3;color:whitesmoke">
+
+                <div class="card-body">
+                  <h5 class="card-title" style="text-align: center;font-size:24px"><b>Success is walking from failure to failure with no loss of enthusiasm</b></h5>
+                  <p class="card-text" style="text-align: center;">By lewis hamilton</p>
+    
+                </div>
+              </div>
+              {% for applicant in applicant_list%}
+              <div class="card mb-3"  style="width: 59rem; border-radius:10px;margin:10px 0px">
+                <div class="card-body">
+                    <div  style="display:inline block;"> 
+                        <p class="card-title" style="text-transform: capitalize;font-size:25px;float:left"><b>{{applicant.applicant.first_name}} {{applicant.applicant.last_name}}</b></p>
+                        <div style="display: flex;float:right;">
+                            <a href="#" style="margin-top: 5px;" ><i class="far fa-envelope fa-2x"></i></a>&nbsp &nbsp
+                            <a href="{% url 'student-resume-c' applicant.job.id applicant.applicant.studentresume.id %}" class="btn btn-primary">Resume</a><br>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+              </div>
+            
+            {%endfor%}
+        </div>
+        
+        
+            
+            
+       
+    {%else%}
+        <h2>This Page Isnt Available</h2>
+        <p>The Link Maybe Broken</p>
+    {%endif%}
+
+{%endblock%}

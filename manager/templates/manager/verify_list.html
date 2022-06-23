@@ -1,0 +1,93 @@
+{% extends 'manager/basic.html'%}
+
+{%block title%}
+Verify Students
+{%endblock%}
+
+{%block name%}
+Verify Student
+{%endblock%}
+
+{%block display%}
+{%if request.user.is_authenticated and request.user.user_type == "admin"  %}
+
+<div class="sidebar" style="z-index:1">
+
+  <a href="{% url 'notice-home'%}"><i class="fa fa-building" aria-hidden="true"></i><span>Notice</span></a>
+  <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+  <a href="{% url 'applied-student'%}"><i class="fa fa-user" aria-hidden="true"></i><span>Applicant</span></a>
+  <a href="{% url 'jobs-list-m'%}"><i class="fas fa-list"></i><span>Jobs</span></a>
+  
+
+    
+    </div>
+
+    <div style="padding:100px 200px 100px 270px;">
+        <div>
+            <input id="myInput" type="text" placeholder="Search.." style="width:25rem;border-radius:2px">
+        </div>
+        <style>
+            #myInput:hover{
+                background-color: azure;
+            }
+        </style>
+        <script>
+            $(document).ready(function(){
+              $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+              });
+            });
+            </script>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Branch</th>
+                <th scope="col"> Admission No.</th>
+                <th scope="col">Resume</th>
+              </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for s in st %}
+            {%if s.is_verified%}
+            <tr class="table-success">
+                <th scope="row">{{forloop.counter}}</th>
+                <td style="text-transform: capitalize;">{{s.user.first_name}} {{s.user.last_name}}</td>
+                <td>{{s.branch}}</td>
+                <td>{{s.addmission_no}}</td>
+                <td><a href="{% url 'verify-resume' s.id %}">Resume</a></td>
+            </tr>
+
+            {%else%}
+            <tr class="table">
+                <th scope="row">{{forloop.counter}}</th>
+                <td style="text-transform: capitalize;">{{s.user.first_name}} {{s.user.last_name}}</td>
+                <td>{{s.branch}}</td>
+                <td>{{s.addmission_no}}</td>
+                <td><a href="{% url 'verify-resume' s.id %}">Resume</a></td>
+            </tr>
+            {%endif%}
+             
+
+            {%endfor%}
+            </tbody>
+        </table>
+            
+                 
+                
+ 
+    </div>
+
+
+    
+{%else%}
+<div style="padding: 100px; font-size:larger;" >
+    <h2>This Page Isnt Available</h2>
+    <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+</div> 
+{%endif%}
+{%endblock%}

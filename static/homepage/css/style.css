@@ -1,0 +1,78 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    overflow-y: hidden;
+    font-family: 'Poppins', sans-serif;
+    
+}
+.bg{
+    /*background-image: url("images/bg2.png");*/
+    background-size: 1550px 750px;
+    background-repeat: no-repeat;
+    
+}
+.spacer{
+    display: flex;
+    flex-direction: row;
+}
+.subtract{
+    width: 650px;
+    height: 650px;
+    margin-top: 80px;
+    margin-left: 190px;
+}
+.office-guy{
+    width: 600px;
+    height: 600px;
+    transform: rotateY(180deg);
+    margin-top: -800px;
+    margin-left: 200px;
+}
+.nav-bar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center; 
+    color: whitesmoke;
+}
+.nav-bar ul{
+    margin-top: 10px;
+    margin-left: 700px;
+}
+.nav-bar li{
+
+    display: inline;
+    padding:0 95px;
+    font-size: 25px;
+}
+.nav-bar a{
+    color: whitesmoke;
+    text-decoration: none;
+}
+.nav-bar a:hover{
+    color: #ff9900;
+}
+.header-text{
+    color: whitesmoke;
+    padding:270px 100px 50px 100px;
+    white-space: nowrap;
+    font-size: 55px
+}
+.header-button{
+    background-color: #ff9900;
+    white-space: nowrap;
+    text-decoration: none;
+    color: whitesmoke;
+    padding: 10px 10px;
+    border-radius: 15px;
+    margin-left: 210px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+}
+
+.header-button:hover{
+    background-color: #ff9900;
+    color:rgba(14, 5,124,0.7);
+}

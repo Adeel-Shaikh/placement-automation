@@ -1,0 +1,45 @@
+{% extends 'manager/basic.html'%}
+
+{%block title%}
+Add Notice
+{%endblock%}
+
+{%block name%}
+Add Notice
+{%endblock%}
+
+{%block display%}
+{%if request.user.is_authenticated and request.user.user_type == "admin"%}
+
+    <div class="sidebar" style="z-index:1">
+
+        <a href="{% url 'notice-home'%}"><i class="fa fa-building" aria-hidden="true"></i><span>Notice</span></a>
+        <a href="{% url 'verify-student' %}"><i class="fas fa-user-graduate"></i></i><span>Students</span></a>
+        <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        <a href="{%url 'selected-student'%}"><i class="far fa-check-circle"></i><span>Seleted</span></a>
+        <a href="{% url 'applied-student'%}"><i class="fa fa-user" aria-hidden="true"></i><span>Applied</span></a>
+        <a href="{% url 'jobs-list-m'%}"><i class="fas fa-list"></i><span>Jobs</span></a>
+
+    
+    </div>
+    <div style="padding:100px 290px;">
+        <div class="form-group">
+            <form method="POST">
+                {%csrf_token%}
+                <b>{{form.as_p}}</b>
+                <button class="btn btn-outline-primary"  >Add</button>
+                
+                <script>
+                    var id="{{ user.id}}";
+                    document.getElementById("user-notice-box").value=id;
+                </script>
+            </form>
+        </div>
+    </div>
+{%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+    </div> 
+{%endif%}
+{%endblock%}

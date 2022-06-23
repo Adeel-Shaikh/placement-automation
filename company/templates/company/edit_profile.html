@@ -1,0 +1,45 @@
+{% extends 'company/basic.html'%}
+
+{%block title%}
+Profile
+{%endblock%}
+
+{%block name%}
+Edit Profile
+{%endblock%}
+
+{%block display%}
+
+    {%if request.user.is_authenticated and request.user.user_type == "company"  %}    
+    <div class="sidebar" style="z-index: 1;">
+        <a href="{% url 'jobs-list'%}"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+        <a id="active-link" href="{% url 'sub-forum' request.user.companyprofile  %}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        <a href="{% url 'company-profile'%}"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+        
+    </div>
+    <div style="padding:100px 270px">
+        <div class="form-group">
+            <form method="POST">
+                {%csrf_token%}
+                {{form.as_p}}
+                <button class="btn btn-primary" >Update Profile</button>    
+            </form>
+            <script>
+                var id="{{ user.id}}";
+                document.getElementById("company-box").value=id;
+            </script>
+        </div>
+
+
+    </div>
+        
+
+       
+    {%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+      </div> 
+    {%endif%}
+
+{%endblock%}

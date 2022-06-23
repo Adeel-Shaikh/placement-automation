@@ -1,0 +1,152 @@
+{% extends 'company/basic.html'%}
+
+{%block title%}
+Company -{{User.first_name}} {{User.last_name}}
+{%endblock%}
+
+{%block name%}
+{%if request.user.is_authenticated and request.user.user_type == "company" and request.user.id == User.id %}
+Company 
+{%else%}
+404 
+{%endif%}
+{%endblock%}
+
+{%load static %}
+{%block display%}
+{%if request.user.is_authenticated and request.user.user_type == "company" and request.user.id == User.id %}
+    <!--sidebar start-->
+
+        <div class="sidebar" style="z-index: 1;">
+            
+            {% if User.companyprofile %}
+                <a href="{% url 'jobs-list'%}"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+                <a id="active-link" href="{% url 'sub-forum' request.user.companyprofile  %}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+                <a href="{% url 'edit-c-profile' User.companyprofile.id %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Details</span></a>
+                <a href="{% url 'company-profile'%}" ><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+            {%else%}
+                <a href="#" style="pointer-events: none;"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+                <a id="active-link" href="#" style="pointer-events: none;"><i class="fas fa-desktop"></i><span>Forum</span></a>
+                <a href="{% url 'create-c-profile' %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Details</span></a>
+                <a href="{% url 'company-profile'%}" style="pointer-events: none;"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+            {%endif%}
+            
+            
+        </div>
+        <!-----------------Side bar ends here------------------------------->
+        <div class="stat-cards">
+            <a href="{% url 'applicant-home-view'%}" style="text-decoration: none;">
+                <div class="card-body2 color1">
+                    <div class="float-left">
+                        <h3 style="font-family: 'Poppins', sans-serif;">
+                            <span class="currency">Applied</span><br>
+                            <span class="count" id="value">{{applicant_count}}</span>
+                        </h3>
+                    </div>
+                    <div class="float-right">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </a>
+
+                <!--Widget End-->
+                <!--Widget Start-->
+                <a href="{% url 'invited-home-view' %}" style="text-decoration: none;">
+                    <div class="card-body2 color2">
+                        <div class="float-left">
+                            <h3 style="font-family: 'Poppins', sans-serif;">
+                                <span class="currency">Invited</span><br>
+                                <span class="count" id="value1">{{invited_count}}</span>
+                            </h3>
+
+                        </div>
+                        <div class="float-right">
+                            <i class="fa fa-hourglass-end" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </a>
+                <!--Widget End-->
+                <!--Widget Start-->
+                <a href="{% url 'selected-home-view' %}" style="text-decoration: none;">
+                    <div class="card-body2 color3">
+                        <div class="float-left">
+                            <h3 style="font-family: 'Poppins', sans-serif;">
+                                <span class="currency">Selected</span><br>
+                                <span class="count" id="value2">{{selected_count}}</span>
+                            </h3>
+
+                            
+                        </div>
+                        <div class="float-right">
+
+                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </a>
+          </div>     
+          <div class="notice">
+            <div class="card-body1 color4" style="padding:0px 0px 0px 190px">
+            <div>
+                <img src="{% static 'company/images/head.png'%}" style="width:31rem;top:0;">
+               
+            </div>
+          </div>
+          </div>
+          <!--
+<script>
+            function animateValue(obj, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                  if (!startTimestamp) startTimestamp = timestamp;
+                  const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                  obj.innerHTML = Math.floor(progress * (end - start) + start);
+                  if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                  }
+                };
+                window.requestAnimationFrame(step);
+              }
+              
+              const obj = document.getElementById("value");
+              animateValue(obj, 0, {{applicant_count}}, 3000);
+
+              const obj1 = document.getElementById("value1");
+              animateValue(obj1, 0, {{invited_count}}, 3000);
+
+              const obj2 = document.getElementById("value2");
+              animateValue(obj2, 0, {{selected_count}}, 3000);
+
+        </script>
+          -->
+          
+{%else%}
+          <div style="padding: 100px; font-size:larger;" >
+            <h2>This Page Isnt Available</h2>
+            <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+          </div> 
+{%endif%}
+{%endblock%}
+<!--
+
+
+{%block content%}
+    {%if request.user.is_authenticated and request.user.user_type == "company" and request.user.id == User.id %}
+        <h1>Hello {{User.first_name}} {{User.last_name}}</h1>
+        <br>
+        {{User.email}}
+
+        <hr>
+        {%if User.companyprofile %}
+            <a href="{% url 'edit-c-profile' User.companyprofile.id %}">Edit Profile</a><br>
+        {%else%}
+            <a href="{% url 'create-c-profile' %}">Create Profile</a><br>
+        {%endif%}
+        <a href="{% url 'create-jobs' %}">Create Jobs</a><br>
+        <a href="{% url 'jobs-list'%}">Job list</a><br>
+        <a href="{% url 'logout' %}">Logout</a>
+    {%else%}
+        <h2>This Page Isnt Available</h2>
+        <p>The Link Maybe Broken</p>
+    {%endif%}
+{%endblock%}
+-->

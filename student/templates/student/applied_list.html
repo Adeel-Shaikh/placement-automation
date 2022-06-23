@@ -1,0 +1,57 @@
+{% extends 'student/basic.html'%}
+
+{% block title %}
+{{request.user.first_name}} {{request.user.last_name}}
+{%endblock%}
+
+{%block name%}
+list of Applied Jobs
+{%endblock%}
+{%block display%}
+
+
+    {%if request.user.is_authenticated and request.user.user_type == "student"  %}   
+    <!--sidebar start-->
+    
+
+    <div class="sidebar" style="z-index:1">
+    
+        <a href="{% url 'job-list-view' %}"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+        <a href="{% url 'edit-resume' request.user.studentresume.id%}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Resume</span></a>
+        <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        <a href="{% url 'student-profile' request.user.id %}"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+
+        
+        </div>
+        <!------------side bar ends here-->
+        <div style="padding: 100px 270px;">
+            {%if applied%}
+              {% for apply in applied %}
+              <div class="list-group">
+                  <a href="{% url 'job-detail-view' apply.job.id %}" class="list-group-item list-group-item-action " aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1" style="text-transform: capitalize;font-size:25px"><b>{{apply.job.position}}</b></h5>
+                      <small>{{apply.job.date_posted}}</small>
+                    </div>
+
+                    <small>{{apply.job.desc|safe|truncatechars:100}}</small>
+                  </a>
+                  <br>
+                
+              {%endfor%}
+            {%else%}
+                Not applied for any Jobs Yet
+            {%endif%}
+            
+           
+
+        </div>
+        
+    {%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+    </div> 
+    {%endif%}
+
+{%endblock%}

@@ -1,0 +1,52 @@
+{% extends 'student/basic.html' %}
+
+{% block title %}
+Quiz
+{%endblock%}
+
+{%block name%}
+Take Quiz 
+{%endblock%}
+
+{%block display%}
+<div class="sidebar" style="z-index:1">
+    
+    <a href="{% url 'job-list-view' %}"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+    <a href="{% url 'edit-resume' request.user.studentresume.id%}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Resume</span></a>
+    <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+    <a href="{% url 'student-profile' request.user.id %}"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+
+    
+    </div>
+
+    <!------------side bar ends here-->
+    <div style="padding: 100px 270px;">
+       
+            {% if applied %}
+            <div class="list-group hover-style">
+                {% for a in applied%}
+                    {%if a.job.quiz %}
+                        <a href="{% url 'single_quiz' quiz_id=a.job.quiz.id %}" class="list-group-item list-group-item-action ">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1" style="text-transform: capitalize;"><b>{{a.job.quiz}}</b></h5>
+                            <small></small>
+                        </div>
+                        <p class="mb-1">By {{a.job.user.companyprofile}}</p>
+                        <p class="mb-1">for {{a.job.position}}</p>
+
+                        </a> 
+                    {%endif%}
+                {%endfor%}               
+             
+              </div>
+              {%else%}
+                    No quizes yet
+              {%endif%}
+
+
+          
+
+    </div>
+{%endblock%}
+
+

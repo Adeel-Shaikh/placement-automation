@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% load static %}
+
+        
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
+     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>Create Quiz</title>
+
+</head>
+<body>
+<div class="card text-center">
+
+    <h1 class="card-header">Create Quiz</h1>
+    <div class="card-body">
+        <div class="col-sm-4 mb-3  " style="  margin: auto; width: 50%;padding: 10px;">
+            <div class="card text-center">
+        <form action="" method="post" class="form-group">
+            {% csrf_token %}
+            <div class="error_text">
+              {{ form.non_field_errors }}
+            </div>
+
+            <div style="margin-top: 45px">
+                {{form.quiz_for}}
+                <script>
+
+                    var id="{{jobs.id }}";
+                    console.log(id)
+                    document.getElementById("job-box").value=id;
+                </script>
+            </div>
+
+            <div style="margin-top: 15px">
+                {{ form.quiz_name.errors }}
+                <label class="quiz_name_label" for="{{ form.quiz_name.id_for_label }}">Quiz Name:    </label>    &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp
+                {{ form.quiz_name }}
+            </div>
+            <br>
+
+            <div >
+                <div class="error_text">
+                    {{ form.num_questions.errors }}
+                </div>
+
+                <label  class="num_questions_label" for="{{ form.num_questions.id_for_label }}">Number of Questions: </label>&nbsp &nbsp
+                {{ form.num_questions }}
+            </div>
+            <br>
+
+
+        <div style="margin-bottom: 10px"><input class="btn btn-primary" type="submit" value="Next"></div>
+        </form>
+    </div>
+    </div>
+    </div>
+
+</div>
+</body>
+</html>

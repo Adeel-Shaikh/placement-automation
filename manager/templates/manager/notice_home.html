@@ -1,0 +1,61 @@
+{% extends 'manager/basic.html'%}
+
+{%block title%}
+Add Notice
+{%endblock%}
+
+{%block name%}
+<b>Notice</b>
+{%endblock%}
+
+{%block display%}
+{%if request.user.is_authenticated and request.user.user_type == "admin"  %}
+
+<div class="sidebar" style="z-index:1">
+
+
+        <a href="{% url 'verify-student' %}"><i class="fas fa-user-graduate"></i></i><span>Students</span></a>
+        <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        <a href="{%url 'selected-student'%}"><i class="far fa-check-circle"></i><span>Seleted</span></a>
+        <a href="{% url 'applied-student'%}"><i class="fa fa-user" aria-hidden="true"></i><span>Applied</span></a>
+        <a href="{% url 'jobs-list-m'%}"><i class="fas fa-list"></i><span>Jobs</span></a>
+
+    
+    </div>
+
+    <div style="padding:100px 200px 100px 270px;">
+        <h1> &nbsp;&nbsp;&nbsp;Notice <a href="{% url 'add-notice' %}" style="text-decoration: none;color:black"><i class="fas fa-plus-circle "></i></a><br></h1>
+        <div style="display: flex;flex-flow:row wrap;"> 
+            {% for notice in object_list%}
+            <div class="card" style="width: 18rem; margin:25px 25px;border-radius:15px">
+                <div class="card-body">
+                  <h5 class="card-title"><b>{{notice}}</b></h5>
+                  <h6 class="card-subtitle mb-2 "><u>{{notice.organized_by}}</u></h6>
+                  <p class="card-text" style="font-size: 13px;">{{notice.description|safe|truncatechars:50}}</p>
+                <div style="display:flex; bottom:0;">
+                    <p style="padding-right: 55px;">{{notice.date_posted}}</p>
+                
+                    <a href="{% url 'notice-edit' notice.id %}" class="card-link" ><i class="far fa-edit"></i></a>
+                    <a href="{% url 'notice-delete' notice.id%}" class="card-link" ><i class="fas fa-trash-alt"></i></a>
+                    {% if notice.hide_key %}
+                    <a href="{% url 'notice-hide' notice.id %}" class="card-link" ><i class="fas fa-eye-slash"></i></a>
+                    {%else%}
+                    <a href="{% url 'notice-hide' notice.id %}" class="card-link" ><i class="fas fa-eye"></i></a>
+                    {%endif%}
+                </div>
+                  
+                </div>
+              </div>
+    
+            {%endfor%}
+        </div>
+        
+    </div>
+    
+{%else%}
+<div style="padding: 100px; font-size:larger;" >
+    <h2>This Page Isnt Available</h2>
+    <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+</div> 
+{%endif%}
+{%endblock%}

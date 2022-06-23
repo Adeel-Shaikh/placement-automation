@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'homepage/css/style.css'%}">
+    <title>Placement Automation System</title>
+
+</head>
+<body >
+   <div class="bg" style="background-image: url({% static 'homepage/images/bg2.png'%}); ">
+        <div class="nav-bar">
+            <ul>
+                {%if request.user.is_authenticated %}
+                <li><a href="{% url 'back-home' %}">Home</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+
+
+                {%else%}
+                <li><a href="{% url 'login' %}">Sign In</a></li>
+                <li><a href="{% url 'register' %}">Sign Up</a></li>
+                {%endif%}
+                <li><a href="#">About</a></li>   
+            </ul>
+        </div>
+        <div class="spacer">
+            <div class="header-class">
+                <h1 class="header-text">Placement Cell</h1>
+                {%if not request.user.is_authenticated %}
+                <a class="header-button" href="{% url 'login' %}">Get Started</a>
+                {%endif%}
+
+            </div>
+            
+        
+            <div class="subtract-circle">
+                <img  class="subtract" src="{% static 'homepage/images/Subtract.png'%}" alt="circle">
+                <img class="office-guy" src="{% static 'homepage/images/office-guy.png'%}" alt="office">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

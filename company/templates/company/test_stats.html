@@ -1,0 +1,56 @@
+{% extends 'company/basic.html'%}
+
+{%block title%}
+Test Stats
+{%endblock%}
+
+{%block name%}
+Stats
+{%endblock%}
+
+{%block display%}
+
+    {%if request.user.is_authenticated and request.user.user_type == "company"  %}    
+    <div class="sidebar" style="z-index: 1;">
+        <a id="active-link" href="{% url 'sub-forum' request.user.companyprofile  %}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        {% if request.user.companyprofile %}
+        <a href="{% url 'edit-c-profile' request.user.companyprofile.id %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Details</span></a>
+        {%else%}
+        <a href="{% url 'create-c-profile' %}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Details</span></a>
+        {%endif%}
+        <a href="{% url 'company-profile'%}"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+        
+    </div>
+    <div style="padding: 100px 50px 5px 290px">
+        <div class="card" style="width: 59rem; border-radius:10px; background-color:#6d8ed3;color:whitesmoke">
+
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center;font-size:30px"><b>{{q}}</b></h5>
+
+
+            </div>
+          </div>
+          <ul class="list-group ">
+              {%for r in res%}
+              <br>
+                <li class="list-group-item d-flex justify-content-between align-items-center" style="width:50rem;margin-left:70px;border-radius:12px">
+                    <span style="text-transform: capitalize;font-size:24px">{{r.user.first_name}} {{r.user.last_name}}</span>
+                    <span class="badge bg-primary rounded-pill">{{r.score}}</span>
+                </li>
+            {%endfor%}
+       
+          </ul>
+    </div>
+    
+        
+            
+            
+       
+    {%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+      </div> 
+    {%endif%}
+
+{%endblock%}

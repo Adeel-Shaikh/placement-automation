@@ -1,0 +1,83 @@
+{% extends 'student/basic.html' %}
+
+{% block title %}
+Skills
+{%endblock%}
+
+{%block name%}
+Add Skills
+{%endblock%}
+
+{%block display%}
+
+
+    {%if request.user.is_authenticated and request.user.user_type == "student"  %}   
+    <!--sidebar start-->
+    
+
+    <div class="sidebar"style="z-index:1">
+    
+        <a href="{% url 'job-list-view' %}"><i class="fa fa-building" aria-hidden="true"></i><span>Jobs</span></a>
+        <a href="{% url 'edit-resume' request.user.studentresume.id%}"><i class="fa fa-id-badge" aria-hidden="true"></i><span>Resume</span></a>
+        <a id="active-link" href="{% url 'forum-main'%}"><i class="fas fa-desktop"></i><span>Forum</span></a>
+        <a href="{% url 'student-profile' request.user.id %}"><i class="fa fa-user" aria-hidden="true"></i><span>Profile</span></a>
+
+        
+        </div>
+        <!------------side bar ends here-->
+        <div style="padding: 100px 270px;">
+            <div class="form-group">
+                <form method="POST">
+                    {%csrf_token%}
+                    {{form.as_p}}
+                    <button class="btn btn-primary">Add</button>
+                    
+                    
+                </form>
+                <script>
+                    var id="{{ user.id}}";
+                    document.getElementById("user-box-skill").value=id;
+                </script>
+            </div>
+    
+            {% if skill_list%}
+        
+            <br>
+            <table class="table ">
+                <thead>
+                    <tr>
+                        <th scope="col"><b>Sr no.</b></th>  
+                        <th scope="col"><b>skill</b></th>
+                        <th scope="col"><b>Level</b></th>
+                        <th scope="col"><b>Category</b></th>
+                        <th scope="col"><b>Update</b></th>
+                        <th scope="col"><b>Delete</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for skill in skill_list %}
+                
+                    <tr>
+                        <td>{{forloop.counter}}</td>  
+                        <td>{{skill.skill_name}}</td>
+                        <td>{{skill.skill_level}}</td>
+                        <td>{{skill.skill_type}}</td>
+                        <td><a href="{% url 'edit-skills' skill.id %}">Update</a></td>
+                        <td><a href="{% url 'delete-skills' skill.id %}">Delete</a></td>
+                    </tr>
+                
+                {%endfor%}
+                </tbody>
+            </table>
+            {%endif%}
+
+        </div>
+        
+    {%else%}
+    <div style="padding: 100px; font-size:larger;" >
+        <h2>This Page Isnt Available</h2>
+        <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+    </div> 
+    {%endif%}
+
+{%endblock%}

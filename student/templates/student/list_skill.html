@@ -1,0 +1,26 @@
+{% extends 'student/base.html' %}
+
+{% block title %}
+Add
+{%endblock%}
+
+{%block content%}
+
+    {%if request.user.is_authenticated and request.user.user_type == "student"  %}    
+        <h1>List Skills</h1>
+        <hr>
+        
+        {%if skill_list_view%}
+         <p>True</p>
+        {%else%}
+        <p>DNE</p>
+        {%endif%}
+        {% for skill in skill_list_view %}
+            {{skill}}
+        {%endfor%}
+    {%else%}
+        <h2>This Page Isnt Available</h2>
+        <p>The Link Maybe Broken</p>
+    {%endif%}
+
+{%endblock%}

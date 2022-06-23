@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
+     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>Single Question</title>
+
+</head>
+<body>
+    <br><br><br>
+    {%if not res%}
+<div  style="display:flex ;">
+    <div >
+       
+        <div class="card" style="width: 750px; margin-left:30px">
+            <div class="card-body">
+
+                <h5 class="card-title"><b>Q{{ current_question.question_num }}. {{ current_question.question_text }}</b>
+                </h5>
+                <div>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                </div>
+                <div >
+                    <form action="{% url 'vote' quiz.id current_question.question_num %}" method="post">
+                        {% csrf_token %}
+
+                            <div >
+                                <br>
+                                {% for choice in current_question.choice_set.all %}
+                                    <div  class="radio-toolbar" >
+                                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                                        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+                                    </div>
+                                    <style>
+                                        .radio-toolbar {
+                                            margin: 10px;
+                                            width: 100px;
+                                          }
+                                          
+                                          .radio-toolbar input[type="radio"] {
+                                            opacity: 0;
+                                            position: fixed;
+                                            width: 0;
+                                          }
+                                          
+                                          .radio-toolbar label {
+                                              display: inline-block;
+                                              background-color: #ddd;
+                                              padding: 10px 20px;
+                                              font-family: sans-serif, Arial;
+                                              font-size: 16px;
+                                              border-radius: 15px;
+                                              width: 700px;
+                                          }
+                                          
+                                          .radio-toolbar label:hover {
+                                            background-color:rgb(218, 191, 243);
+                                          }
+                                          
+                                          
+                                          
+                                          .radio-toolbar input[type="radio"]:checked + label {
+                                              color: whitesmoke;
+                                              background-color: blueviolet;
+
+                                          }
+                                          
+                                    </style>
+                                    
+                                    
+                                    <br>
+
+                                {% endfor %}
+
+                            </div>
+                            <div >
+                                <div >
+                                    <input type="submit" class="btn btn-outline-success" value={{ next_or_submit }}>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+<div class="col-sm-3" style="  float: left; width: 150px;padding: 5px;margin-left: 250px;">
+   
+    </div>
+    -->
+    
+    <div class="card" style="margin-left: 250px;width:300px;padding:10px">
+        <div class="card-body">
+        {% for q in question_total %}
+            &nbsp &nbsp 
+            <a href="{% url 'single_question' quiz.id q.question_num %}" class="circle">
+                {{ q.question_num }}
+
+            </a>
+         {% endfor %}
+        </div>
+        <div class="alert alert-danger" role="alert">
+            The answer is stored after you press next.
+            When you go to the same question the given answer will not be displayed
+          </div>
+ 
+    </div>
+      <style>
+          a{
+              padding-left: 15px;
+              text-decoration: none;
+          }
+          a:hover{
+            background-color:rgb(218, 191, 243);
+          }
+          a:visited{
+            background-color:rgb(218, 191, 243);
+          }
+        .circle {
+            margin-top: 5px;
+            border-radius: 100%;        
+            background: lightgray;
+            display:inline-block;
+            line-height:40px;
+            width: 40px;
+        }
+      </style>
+
+</div>
+{%else%}
+<div class="alert alert-warning" role="alert" style="margin: 1 0%;">
+    <h1>Already Attempted</h1>
+  </div>
+{%endif%}
+
+</body>
+</html>

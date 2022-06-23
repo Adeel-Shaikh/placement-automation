@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% load static %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Create Question</title>
+
+</head>
+<body>
+
+
+
+    <div class="card text-center">
+
+        <h1 class="card-header">Create Question {{ question_num }}</h1>
+        <div class="card-body">
+        <form action="" method="post">
+            <div class="form-group">
+            {% csrf_token %}
+            <div class="error_text">
+                {{ form.non_field_errors }}
+            </div>
+
+            <div >
+                {{ form.question_text.errors }}
+                <label class="question_text_label badge badge-info" for="{{ form.question_text.id_for_label }}">Question   </label>
+                {{ form.question_text }}
+            </div><br>
+
+            <div >
+
+                <div >
+                    {{ form.choice1_text.errors }}
+                    <label class="choice_label badge badge-info" for="{{ form.choice1_text.id_for_label }}">Choice 1:  </label>
+                    {{ form.choice1_text }}
+                
+
+                
+                    {{ form.choice1_correctness.errors }}
+                    <label class="choice1_correct_label" for="{{ form.choice1_text.id_for_label }}"></label>
+                    {{ form.choice1_correctness }}
+
+                
+                </div>
+
+            </div>
+
+            <br>
+
+            <div >
+
+                <div >
+                    {{ form.choice2_text.errors }}
+                    <label class="choice_label badge badge-info" for="{{ form.choice2_text.id_for_label }}">Choice 2:  </label>     {{ form.choice2_text }}
+                
+
+               
+                    {{ form.choice2_correctness.errors }}
+                    <label class="choice2_correct_label" for="{{ form.choice2_text.id_for_label }}"></label>
+                    {{ form.choice2_correctness }}
+                </div>
+
+            </div>
+
+            <br>
+
+            <div >
+
+                <div >
+                    {{ form.choice3_text.errors }}
+                    <label class="choice_label badge badge-info" for="{{ form.choice3_text.id_for_label }}">Choice 3:  </label>
+                    {{ form.choice3_text }}
+                
+
+                
+                    {{ form.choice3_correctness.errors }}
+                    <label class="choice3_correct_label" for="{{ form.choice3_correctness.id_for_label }}"></label>
+                    {{ form.choice3_correctness }}
+                </div>
+
+            </div>
+
+            <br>
+
+            <div >
+
+                <div >
+                    {{ form.choice4_text.errors }}
+                    <label class="choice_label badge badge-info" for="{{ form.choice4_text.id_for_label }}">Choice 4:  </label>
+                    {{ form.choice4_text }}
+                
+
+               
+                    {{ form.choice4_correctness.errors }}
+                    <label class="choice4_correct_label" for="{{ form.choice4_correctness.id_for_label }}"></label>
+                    {{ form.choice4_correctness }}
+                </div>
+
+            </div>
+
+            <br>
+
+        <input class="btn btn-primary" type="submit" value={{ next_submit }}>
+    </div>
+        </form>
+    </div>
+    </div>
+
+
+
+
+
+</body>
+
+</body>
+</html>
